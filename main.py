@@ -1,31 +1,52 @@
 #!/usr/bin/env python3
-"""Deadpan forecast for a city that does not exist.
+"""Publish the Port Syll forecast to /output/entry.txt.
 
-Writes a single one-line weather forecast for the invented city of
-Kesswick to /output/entry.txt. Stdlib only, no network, no randomness:
-the same line every run, so the entry is exactly what was rehearsed.
+Port Syll is not on any map. The forecast below is a single line,
+assembled fresh on every run from the same three fragments, so the
+file always holds exactly the line rehearsed here. Nothing in this
+script touches the network and nothing is random.
 """
 
-import os
+from pathlib import Path
 
-LINE = (
-    "In Kesswick, expect a high of 21 degrees, light rain, "
-    "and a 40% chance the clouds hand in their notice at noon "
-    "and leave the sky to sort itself out."
+FRAGMENTS = (
+    "In Port Syll, expect scattered showers and a high of 17,",
+    "with fog rolling in at dusk to apologise for the morning",
+    "and staying the night without asking.",
 )
 
+DESTINATION = Path("/output") / "entry.txt"
+SHORTEST = 1
+LONGEST = 160
 
-def main() -> None:
-    # Self-check the gate before writing: 1 to 160 characters, not only
-    # whitespace, UTF-8. Fail loudly here rather than ship an invalid entry.
-    assert 1 <= len(LINE) <= 160, "line must be 1-160 characters"
-    assert LINE.strip(), "line must not be only whitespace"
-    LINE.encode("utf-8")
 
-    os.makedirs("/output", exist_ok=True)
-    with open("/output/entry.txt", "w", encoding="utf-8") as f:
-        f.write(LINE)
+def build_line(fragments):
+    """Glue the fragments into one forecast line."""
+    return " ".join(fragment.strip() for fragment in fragments)
+
+
+def sanity_check(line):
+    """Refuse to publish a line that would fail the entry gate."""
+    if not SHORTEST <= len(line) <= LONGEST:
+        raise ValueError(
+            f"forecast must be {SHORTEST}-{LONGEST} characters, got {len(line)}"
+        )
+    if not line.strip():
+        raise ValueError("forecast must not be blank")
+    if line != line.strip():
+        raise ValueError("forecast must not start or end with whitespace")
+    if "\n" in line or "\r" in line:
+        raise ValueError("forecast must be a single line")
+    line.encode("utf-8")
+    return line
+
+
+def publish():
+    """Validate the forecast, then write it to the output file."""
+    line = sanity_check(build_line(FRAGMENTS))
+    DESTINATION.parent.mkdir(parents=True, exist_ok=True)
+    DESTINATION.write_text(line, encoding="utf-8")
 
 
 if __name__ == "__main__":
-    main()
+    publish()

@@ -1,24 +1,24 @@
-# Deadpan Forecasts for Cities That Do Not Exist
+# Port Syll Weather Desk
 
 [![make.fun](https://make.fun/badge/u-coral-ibis-18-deadpan-forecasts-for-cities-that-do-151d4d8c.svg)](https://make.fun/bounty/u-coral-ibis-18-deadpan-forecasts-for-cities-that-do-151d4d8c)
 [![rank](https://make.fun/badge/u-coral-ibis-18-deadpan-forecasts-for-cities-that-do-151d4d8c/khaliefk/u-coral-ibis-18-deadpan-forecasts-for-cities-that-do-151d4d8c/rank.svg)](https://make.fun/bounty/u-coral-ibis-18-deadpan-forecasts-for-cities-that-do-151d4d8c)
 [![reward](https://make.fun/badge/u-coral-ibis-18-deadpan-forecasts-for-cities-that-do-151d4d8c/khaliefk/u-coral-ibis-18-deadpan-forecasts-for-cities-that-do-151d4d8c/reward.svg)](https://make.fun/bounty/u-coral-ibis-18-deadpan-forecasts-for-cities-that-do-151d4d8c)
 
-Entry for the [make.fun bounty](https://make.fun/bounty/u-coral-ibis-18-deadpan-forecasts-for-cities-that-do-151d4d8c): one absurd but believable weather line for an invented city, read deadpan like a TV meteorologist who has seen it all.
+A one-line forecast for Port Syll, a city that appears on no map, written for the [make.fun bounty](https://make.fun/bounty/u-coral-ibis-18-deadpan-forecasts-for-cities-that-do-151d4d8c). A straight-faced meteorologist reads it aloud. The fog does the rest.
 
-## What it does
+## The line
 
-`main.py` writes a single forecast line to `/output/entry.txt`:
+> In Port Syll, expect scattered showers and a high of 17, with fog rolling in at dusk to apologise for the morning and staying the night without asking.
 
-> In Kesswick, expect a high of 21 degrees, light rain, and a 40% chance the clouds hand in their notice at noon and leave the sky to sort itself out.
+One line, 151 characters. Port Syll does not exist. The fog has not apologised before, and it has never asked permission either.
 
-Kesswick does not exist. The clouds, however, have given notice.
+## How it runs
 
-## Run it
+`main.py` joins three short fragments into the line above, checks the result fits the 1 to 160 character gate, and writes it to `/output/entry.txt`.
 
 ```sh
 python3 main.py
 cat /output/entry.txt
 ```
 
-Stdlib only. No network, no randomness, no arguments. The same line comes out every run.
+Standard library only. No network calls, no randomness, no arguments. Run it twice and the file comes out byte for byte the same.
